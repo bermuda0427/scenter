@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仙特企業網站「舊／新導航」格子式對照表</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .table-container {
+            padding: 40px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        thead {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: white;
+        }
+
+        thead th {
+            padding: 20px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        tbody tr {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #eee;
+        }
+
+        tbody tr:hover {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tbody tr:nth-child(even):hover {
+            background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+        }
+
+        td {
+            padding: 18px 15px;
+            vertical-align: top;
+            line-height: 1.6;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status.keep {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+        }
+
+        .status.downgrade {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+        }
+
+        .status.rename {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+        }
+
+        .status.merge {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            color: white;
+        }
+
+        .status.remove {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+        }
+
+        .status.upgrade {
+            background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);
+            color: white;
+        }
+
+        .status.new {
+            background: linear-gradient(135deg, #e91e63 0%, #ad1457 100%);
+            color: white;
+        }
+
+        .old-nav {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .new-nav {
+            font-weight: 600;
+            color: #27ae60;
+        }
+
+        .notes {
+            color: #555;
+            font-size: 13px;
+        }
+
+        .print-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .print-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+            
+            .print-btn {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .table-container {
+                padding: 20px;
+            }
+            
+            table {
+                font-size: 12px;
+            }
+            
+            td, th {
+                padding: 12px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>仙特企業網站導航結構對照表</h1>
+            <p>舊版與新版導航項目整合規劃</p>
+        </div>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">舊版導航項目（原始）</th>
+                        <th style="width: 25%;">新版導航項目（建議）</th>
+                        <th style="width: 15%;">狀態</th>
+                        <th style="width: 35%;">處理方式／備註</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="old-nav">首頁</td>
+                        <td class="new-nav">首頁</td>
+                        <td><span class="status keep">保留（重構）</span></td>
+                        <td class="notes">Hero、數據區、行業入口、Logo 牆、強 CTA（預約／下載案例）</td>
+                    </tr>
+                    <tr>
+                        <td class="old-nav">關於我們</td>
+                        <td class="new-nav">（移至頁腳或公司資訊群組）</td>
+                        <td><span class="status downgrade">降級至頁腳</span></td>
+                        <td class="notes">不與商業轉換目標搶注意力</td>
+                    </tr>
+                    <tr>
+                        <td class="old-nav">香氛行銷</td>
+                        <td class="new-nav">嗅覺科學／感官行銷</td>
+                        <td><span class="status rename">重新命名</span></td>
+                        <td class="notes">教育／科普／產業洞察集中於此</td>
+                    </tr>
+                    <tr>
+                        <td class="old-nav">擴香設備</td>
+                        <td class="new-nav">產品與服務 → 擴香設備</td>
+                        <td><span class="status merge">合併</span></td>
+                        <td class="notes">統一歸入「產品與服務」，避免分散</td>
+                    </tr>
+                    <tr>
+                        <td class="old-nav">服務項目（打造商業空間香氛、租賃方案…）</td>
+                        <td class="new-nav">產品與服務 → 服務流程／租賃方案</td>
+                        <td><span class="status merge">合併</span></td>
+                        <td class="notes">與設備、香氛系列同一分組</td>
+                    </tr>
+                    <tr>
+                        <td class="old-nav">香氛系列</td>
+                        <td class="new-nav">產品與服務 → 香氛系列</td>
+                        <td><span class="status merge">合併</span></td>
+                        <td class="notes">與設備同一分組</td>
+                    </tr>
+                    <tr>
+                        <td class="old-nav">香氛門房（內容不足）</td>
+                        <td class="new-nav">（暫不列出／併入服務流程頁）</td>
+                        <td><span class="status remove">移除／整併</span></td>
+                        <td class="notes">等內容成熟再上線</td>
+                    </tr>
+                    <tr>
+                        <td class="old-nav">各行業應用（未獨立為一級）</td>
+                        <td class="new-nav">行業解決方案（五大產業專區）</td>
+                        <td><span class="status upgrade">提升為一級</span></td>
+                        <td class="notes">成為主要導流與轉換入口</td>
+                    </tr>
+                    <tr>
+                        <td class="old-nav">（—）</td>
+                        <td class="new-nav">行業解決方案 → 房地產香氛</td>
+                        <td><span class="status new">全新新增</span></td>
+                        <td class="notes">依企劃書拆分五大產業</td>
+                    </tr>
+                    <tr>
+                        <td class="old-nav">（—）</td>
+                        <td class="new-nav">行業解決方案 → 汽車品牌</td>
+                        <td><span class="status new">全新新增</span></td>
+                        <td class="notes">同上</td>
+                    </tr>
+                    <tr>
+                        <td class="old-nav">（—）</td>
+                        <td class="new-nav">行業解決方案 → 娛樂與博弈</td>
+                        <td><span class="status new">全新新增</span></td>
+                        <td class="notes">同上</td>
+                    </tr>
+                    <tr>
+                        <td class="old-nav">（—）</td>
+                        <td class="new-nav">行業解決方案 → 醫療美容</td>
+                        <td><span class="status new">全新新增</span></td>
+                        <td class="notes">同上</td>
+                    </tr>
+                    <tr>
+                        <td class="old-nav">（—）</td>
+                        <td class="new-nav">行業解決方案 → 流行服飾</td>
+                        <td><span class="status new">全新新增</span></td>
+                        <td class="notes">同上</td>
+                    </tr>
+                    <tr>
+                        <td class="old-nav">（—）</td>
+                        <td class="new-nav">客戶見證</td>
+                        <td><span class="status new">全新新增</span></td>
+                        <td class="notes">強化信任／社會證明（Logo 牆、影片見證、案例數據）</td>
+                    </tr>
+                    <tr>
+                        <td class="old-nav">（—）</td>
+                        <td class="new-nav">ROI 計算器</td>
+                        <td><span class="status new">全新新增</span></td>
+                        <td class="notes">互動轉換工具（估算投報）</td>
+                    </tr>
+                    <tr>
+                        <td class="old-nav">（—）</td>
+                        <td class="new-nav">內容資源（部落格、下載資源、FAQ）</td>
+                        <td><span class="status new">全新新增</span></td>
+                        <td class="notes">SEO／Lead Magnet 集中管理</td>
+                    </tr>
+                    <tr>
+                        <td class="old-nav">聯絡我們</td>
+                        <td class="new-nav">聯絡我們／預約諮詢</td>
+                        <td><span class="status keep">保留（優化）</span></td>
+                        <td class="notes">表單精簡、多管道客服（Line、WhatsApp、即時聊天等）</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <button class="print-btn" onclick="window.print()">📄 匯出 PDF</button>
+
+    <script>
+        // 添加一些互動效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const rows = document.querySelectorAll('tbody tr');
+            
+            rows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
