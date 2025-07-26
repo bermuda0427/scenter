@@ -13,9 +13,31 @@
 
         body {
             font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
             padding: 40px 20px;
+        }
+
+        .nav-button {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .nav-button a {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .nav-button a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
 
         .container {
@@ -39,6 +61,7 @@
             font-weight: 700;
             margin-bottom: 10px;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            line-height: 1.3;
         }
 
         .header p {
@@ -195,6 +218,10 @@
             .print-btn {
                 display: none;
             }
+            
+            .nav-button {
+                display: none;
+            }
         }
 
         @media (max-width: 768px) {
@@ -217,9 +244,13 @@
     </style>
 </head>
 <body>
+    <div class="nav-button">
+        <a href="quotation.html">報價單</a>
+    </div>
+    
     <div class="container">
         <div class="header">
-            <h1>仙特企業網站導航結構對照表</h1>
+            <h1><span style="font-size: 0.6em;">仙特企業網站</span><br>導航結構對照表</h1>
             <p>舊版與新版導航項目整合規劃</p>
         </div>
         
