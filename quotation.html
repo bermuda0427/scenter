@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仙特企業網站改版報價單</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', sans-serif;
+            background: #f8f9fa;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .info-section {
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .info-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .info-item strong {
+            color: #495057;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .amount {
+            font-size: 24px;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .phases-section {
+            padding: 30px;
+        }
+
+        .phase-card {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border-left: 5px solid #667eea;
+        }
+
+        .phase-header {
+            background: linear-gradient(135deg, #495057 0%, #343a40 100%);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .phase-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .phase-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .phase-1 .phase-badge { background: #28a745; color: white; }
+        .phase-2 .phase-badge { background: #fd7e14; color: white; }
+        .phase-3 .phase-badge { background: #007bff; color: white; }
+        .phase-4 .phase-badge { background: #6f42c1; color: white; }
+
+        .phase-content {
+            padding: 25px 30px;
+        }
+
+        .phase-items {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .phase-items li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .phase-items li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .phase-items li:last-child {
+            border-bottom: none;
+        }
+
+        .phase-cost {
+            text-align: right;
+            font-size: 20px;
+            font-weight: bold;
+            color: #495057;
+            padding: 15px 0;
+            border-top: 2px solid #e9ecef;
+        }
+
+        .total-section {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .total-amount {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .payment-terms {
+            background: #f8f9fa;
+            padding: 25px 30px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .payment-terms h3 {
+            color: #495057;
+            margin-bottom: 15px;
+        }
+
+        .payment-list {
+            list-style: none;
+        }
+
+        .payment-list li {
+            padding: 8px 0;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .payment-list li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .notes-section {
+            background: #fff3cd;
+            padding: 25px 30px;
+            border-top: 1px solid #ffeaa7;
+        }
+
+        .notes-section h3 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+
+        .notes-list {
+            list-style: none;
+        }
+
+        .notes-list li {
+            padding: 5px 0;
+            position: relative;
+            padding-left: 20px;
+            color: #856404;
+        }
+
+        .notes-list li:before {
+            content: "⚠";
+            position: absolute;
+            left: 0;
+            color: #f39c12;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .info-section, .phases-section, .payment-terms, .notes-section {
+                padding: 20px;
+            }
+            
+            .phase-header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .phase-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>仙特企業網站改版報價單</h1>
+            <p>四階段完整規劃</p>
+        </div>
+
+        <div class="info-section">
+            <div class="info-grid">
+                <div class="info-item">
+                    <strong>報價日期</strong>
+                    2025/07/26
+                </div>
+                <div class="info-item">
+                    <strong>總金額</strong>
+                    <span class="amount">NT$ 39,000</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="phases-section">
+            <div class="phase-card phase-1">
+                <div class="phase-header">
+                    <div class="phase-title">第一階段（1–2 週）</div>
+                    <div class="phase-badge">首頁建置</div>
+                </div>
+                <div class="phase-content">
+                    <ul class="phase-items">
+                        <li>新版首頁設計 & 排版（Hero Banner、基本 CTA）</li>
+                        <li>五大行業（完整頁面編輯排版）</li>
+                        <li>基礎 SEO（標題、描述、Google Search Console 成效串接設定）</li>
+                    </ul>
+                    <div class="phase-cost">小計：NT$ 12,000</div>
+                </div>
+            </div>
+
+            <div class="phase-card phase-2">
+                <div class="phase-header">
+                    <div class="phase-title">第二階段（3–4 週）</div>
+                    <div class="phase-badge">基礎功能</div>
+                </div>
+                <div class="phase-content">
+                    <ul class="phase-items">
+                        <li>客戶見證頁（靜態 Logo 牆＋2–3 則文字見證）</li>
+                        <li>ROI 計算器（訪客輸入輸入表單，系統寄送預估效益回覆 Email）</li>
+                        <li>基本數據追蹤（GA4、GSC）</li>
+                    </ul>
+                    <div class="phase-cost">小計：NT$ 12,000</div>
+                </div>
+            </div>
+
+            <div class="phase-card phase-3">
+                <div class="phase-header">
+                    <div class="phase-title">第三階段（5–6 週）</div>
+                    <div class="phase-badge">內容建置</div>
+                </div>
+                <div class="phase-content">
+                    <ul class="phase-items">
+                        <li>部落格（原文章AI分析優化後更新，額外建議補充）</li>
+                        <li>下載資源模組（1–2 份 PDF 可上傳下載）</li>
+                        <li>客服連結設定（Line、WhatsApp 按鈕）</li>
+                    </ul>
+                    <div class="phase-cost">小計：NT$ 9,000</div>
+                </div>
+            </div>
+
+            <div class="phase-card phase-4">
+                <div class="phase-header">
+                    <div class="phase-title">第四階段（7–8 週）</div>
+                    <div class="phase-badge">收尾優化</div>
+                </div>
+                <div class="phase-content">
+                    <ul class="phase-items">
+                        <li>流量報表（GA、GSC 數據）</li>
+                        <li>表單優化（精簡必填欄位）</li>
+                        <li>QA 測試、上線檢查</li>
+                    </ul>
+                    <div class="phase-cost">小計：NT$ 6,000</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="total-section">
+            <div class="total-amount">💰 總報價：NT$ 39,000</div>
+        </div>
+
+        <div class="payment-terms">
+            <h3>付款條件</h3>
+            <ul class="payment-list">
+                <li>第一階段完成後收款：NT$ 12,000</li>
+                <li>第二階段完成後收款：NT$ 12,000</li>
+                <li>第三階段完成後收款：NT$ 9,000</li>
+                <li>第四階段完成後收款：NT$ 6,000</li>
+            </ul>
+        </div>
+
+        <div class="notes-section">
+            <h3>備註事項</h3>
+            <ul class="notes-list">
+                <li>進階互動（例如 360 展示、線上香氛測驗）不在此方案內</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
