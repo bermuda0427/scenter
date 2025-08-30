@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仙特ROI計算機流程說明</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+            line-height: 1.6;
+            color: #1e293b;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #10b981, #059669);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .section h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 24px 0 16px 0;
+            color: #10b981;
+            border-left: 4px solid #10b981;
+            padding-left: 16px;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .overview-card {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .overview-card .number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .overview-card .label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .industry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .industry-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            padding: 20px;
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .industry-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .industry-card.fashion { border-left-color: #ec4899; }
+        .industry-card.realestate { border-left-color: #3b82f6; }
+        .industry-card.automotive { border-left-color: #f59e0b; }
+        .industry-card.entertainment { border-left-color: #8b5cf6; }
+        .industry-card.medical { border-left-color: #10b981; }
+
+        .industry-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .industry-uplift {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #10b981;
+            margin: 8px 0;
+        }
+
+        .industry-description {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #374151;
+        }
+
+        td {
+            font-size: 0.9rem;
+        }
+
+        .scenario-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .scenario-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .scenario-card.conservative {
+            border-color: #f59e0b;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05));
+        }
+
+        .scenario-card.base {
+            border-color: #10b981;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05));
+        }
+
+        .scenario-card.optimistic {
+            border-color: #8b5cf6;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(124, 58, 237, 0.05));
+        }
+
+        .scenario-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .scenario-multiplier {
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 8px 0;
+        }
+
+        .conservative .scenario-title { color: #f59e0b; }
+        .conservative .scenario-multiplier { color: #f59e0b; }
+        .base .scenario-title { color: #10b981; }
+        .base .scenario-multiplier { color: #10b981; }
+        .optimistic .scenario-title { color: #8b5cf6; }
+        .optimistic .scenario-multiplier { color: #8b5cf6; }
+
+        .flowchart {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .flow-step {
+            display: inline-block;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            margin: 8px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .flow-step:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .flow-step.input {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .flow-step.calculation {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .flow-step.output {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: #10b981;
+            margin: 0 8px;
+        }
+
+        .formula-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05));
+            border: 2px solid #10b981;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+        }
+
+        .formula-title {
+            font-family: system-ui, sans-serif;
+            font-weight: 700;
+            color: #059669;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .kpi-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-top: 4px solid #10b981;
+        }
+
+        .kpi-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #10b981;
+            margin: 8px 0;
+        }
+
+        .kpi-label {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .nav-menu {
+            position: sticky;
+            top: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-menu ul {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            color: #10b981;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background: #10b981;
+            color: white;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(16, 185, 129, 0.1));
+            border-left: 4px solid #10b981;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 16px 0;
+        }
+
+        .highlight-box h4 {
+            color: #059669;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05));
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 16px 0;
+        }
+
+        .warning-box h4 {
+            color: #d97706;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .nav-menu ul {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .flowchart {
+                padding: 20px;
+            }
+            
+            .flow-step {
+                display: block;
+                margin: 8px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>💰 仙特ROI計算機流程</h1>
+            <p class="subtitle">投資回報率試算系統｜主管說明文件</p>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="#overview">系統概覽</a></li>
+                <li><a href="#industries">產業設定</a></li>
+                <li><a href="#scenarios">情境模式</a></li>
+                <li><a href="#calculation">計算邏輯</a></li>
+                <li><a href="#flow">操作流程</a></li>
+                <li><a href="#limitations">限制說明</a></li>
+            </ul>
+        </nav>
+
+        <!-- 系統概覽 -->
+        <section class="section" id="overview">
+            <h2>📊 系統概覽</h2>
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <div class="number">5</div>
+                    <div class="label">產業類別</div>
+                </div>
+                <div class="overview-card">
+                    <div class="number">3</div>
+                    <div class="label">情境模式</div>
+                </div>
+                <div class="overview-card">
+                    <div class="number">4</div>
+                    <div class="label">固定KPI</div>
+                </div>
+                <div class="overview-card">
+                    <div class="number">即時</div>
+                    <div class="label">ROI計算</div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h4>🎯 系統目的</h4>
+                <p>提供客戶快速、科學化的投資回報率評估，基於真實行業數據和案例統計，協助決策制定和預算規劃。</p>
+            </div>
+        </section>
+
+        <!-- 產業設定 -->
+        <section class="section" id="industries">
+            <h2>🏢 產業類別與提升率設定</h2>
+            
+            <div class="industry-grid">
+                <div class="industry-card fashion">
+                    <div class="industry-title">👗 流行零售</div>
+                    <div class="industry-uplift">+25%</div>
+                    <div class="industry-description">基於客單價提升和停留時間延長的綜合效益</div>
+                </div>
+                
+                <div class="industry-card realestate">
+                    <div class="industry-title">🏘️ 房地產/接待中心</div>
+                    <div class="industry-uplift">+25%</div>
+                    <div class="industry-description">提升空間質感，增加成交機率和客戶滿意度</div>
+                </div>
+                
+                <div class="industry-card automotive">
+                    <div class="industry-title">🚗 汽車展間</div>
+                    <div class="industry-uplift">+20%</div>
+                    <div class="industry-description">專注於成交率提升，營造專業信任感</div>
+                </div>
+                
+                <div class="industry-card entertainment">
+                    <div class="industry-title">🎮 娛樂/博弈</div>
+                    <div class="industry-uplift">+25%</div>
+                    <div class="industry-description">延長停留時間，提升人均消費金額</div>
+                </div>
+                
+                <div class="industry-card medical">
+                    <div class="industry-title">💉 醫療美容</div>
+                    <div class="industry-uplift">+35%</div>
+                    <div class="industry-description">最高提升率，改善諮詢轉換率和服務體驗</div>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>產業代碼</th>
+                        <th>產業名稱</th>
+                        <th>基準提升率</th>
+                        <th>數據來源</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>fashion-retail</code></td>
+                        <td>流行零售</td>
+                        <td><strong>25%</strong></td>
+                        <td>停留時間+45% → 營收+25%</td>
+                    </tr>
+                    <tr>
+                        <td><code>real-estate</code></td>
+                        <td>房地產/接待中心</td>
+                        <td><strong>25%</strong></td>
+                        <td>空間質感提升 → 成交率+25%</td>
+                    </tr>
+                    <tr>
+                        <td><code>automotive</code></td>
+                        <td>汽車展間</td>
+                        <td><strong>20%</strong></td>
+                        <td>成交率+20% → 營收+20%</td>
+                    </tr>
+                    <tr>
+                        <td><code>entertainment</code></td>
+                        <td>娛樂/博弈</td>
+                        <td><strong>25%</strong></td>
+                        <td>人均消費+25%</td>
+                    </tr>
+                    <tr>
+                        <td><code>medical-beauty</code></td>
+                        <td>醫療美容</td>
+                        <td><strong>35%</strong></td>
+                        <td>諮詢轉換+35%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 情境模式 -->
+        <section class="section" id="scenarios">
+            <h2>📈 情境模式設定</h2>
+            
+            <div class="scenario-cards">
+                <div class="scenario-card conservative">
+                    <div class="scenario-title">🛡️ 保守情境</div>
+                    <div class="scenario-multiplier">×0.6</div>
+                    <div class="scenario-description">較謹慎的預估，適合風險規避型決策</div>
+                </div>
+                
+                <div class="scenario-card base">
+                    <div class="scenario-title">📊 基準情境</div>
+                    <div class="scenario-multiplier">×1.0</div>
+                    <div class="scenario-description">基於實際案例數據的標準預估</div>
+                </div>
+                
+                <div class="scenario-card optimistic">
+                    <div class="scenario-title">🚀 樂觀情境</div>
+                    <div class="scenario-multiplier">×1.4</div>
+                    <div class="scenario-description">理想執行條件下的最佳預期</div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h4>💡 情境選擇建議</h4>
+                <p><strong>保守情境：</strong>初次導入或預算有限時使用<br>
+                <strong>基準情境：</strong>一般商業評估的標準選擇<br>
+                <strong>樂觀情境：</strong>完整導入且執行良好的理想狀況</p>
+            </div>
+        </section>
+
+        <!-- 計算邏輯 -->
+        <section class="section" id="calculation">
+            <h2>🧮 計算邏輯與公式</h2>
+            
+            <h3>📝 輸入參數</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>參數名稱</th>
+                        <th>必填</th>
+                        <th>說明</th>
+                        <th>用途</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>產業類別</td>
+                        <td>✅</td>
+                        <td>選擇對應的產業類型</td>
+                        <td>決定基準提升率</td>
+                    </tr>
+                    <tr>
+                        <td>每月投入成本</td>
+                        <td>✅</td>
+                        <td>香氛系統的月度費用</td>
+                        <td>ROI計算分母</td>
+                    </tr>
+                    <tr>
+                        <td>每月基準營收</td>
+                        <td>⚠️</td>
+                        <td>現有月營收（二選一）</td>
+                        <td>效益計算基準</td>
+                    </tr>
+                    <tr>
+                        <td>來客數 × 客單價</td>
+                        <td>⚠️</td>
+                        <td>月來客數乘以平均消費（二選一）</td>
+                        <td>替代營收計算</td>
+                    </tr>
+                    <tr>
+                        <td>情境選擇</td>
+                        <td>✅</td>
+                        <td>保守/基準/樂觀</td>
+                        <td>調整提升幅度</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>🔢 核心計算公式</h3>
+            
+            <div class="formula-box">
+                <div class="formula-title">1. 最終提升率計算</div>
+                最終提升率 = 基準提升率 × 情境係數<br>
+                例：醫美 × 基準情境 = 35% × 1.0 = 35%
+            </div>
+
+            <div class="formula-box">
+                <div class="formula-title">2. 基準營收確定</div>
+                IF (直接輸入營收 > 0)<br>
+                　　基準營收 = 直接輸入營收<br>
+                ELSE<br>
+                　　基準營收 = 月來客數 × 平均客單價
+            </div>
+
+            <div class="formula-box">
+                <div class="formula-title">3. 效益與ROI計算</div>
+                月度效益金額 = 基準營收 × 最終提升率<br>
+                淨收益 = 月度效益金額 - 月度投入成本<br>
+                ROI = (淨收益 ÷ 月度投入成本) × 100%
+            </div>
+
+            <h3>📊 固定KPI指標</h3>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-value">+45%</div>
+                    <div class="kpi-label">停留時間提升</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">+25%</div>
+                    <div class="kpi-label">平均營收提升</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">6個月</div>
+                    <div class="kpi-label">品牌記憶持續</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">4.8/5</div>
+                    <div class="kpi-label">客戶滿意度</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 操作流程 -->
+        <section class="section" id="flow">
+            <h2>🔄 操作流程圖</h2>
+            
+            <div class="flowchart">
+                <div class="flow-step input">選擇產業類別</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-step input">填入營業時數/天數</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-step input">輸入月度投入成本</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-step input">提供基準營收數據</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-step input">選擇情境模式</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-step calculation">系統讀取基準提升率</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-step calculation">計算最終提升率</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-step calculation">計算月度效益金額</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-step calculation">計算淨收益與ROI</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-step output">顯示完整試算結果</div>
+            </div>
+
+            <div class="highlight-box">
+                <h4>⚡ 即時計算特色</h4>
+                <p>系統採用即時計算，無需後端伺服器，所有運算都在瀏覽器中完成，確保資料隱私與計算速度。</p>
+            </div>
+        </section>
+
+        <!-- 限制說明 -->
+        <section class="section" id="limitations">
+            <h2>⚠️ 限制說明與免責聲明</h2>
+            
+            <div class="warning-box">
+                <h4>🔍 數據來源說明</h4>
+                <p>提升率數據來源於企劃書統計與實際行業案例，包含停留時間+45%、營收+25%、汽車展間成交率+20%、娛樂人均消費+25%、醫美諮詢轉換+35%等實測數據。</p>
+            </div>
+
+            <h3>📋 使用限制</h3>
+            <ul style="margin-left: 20px; margin-bottom: 20px;">
+                <li><strong>僅供參考：</strong>試算結果僅供商業討論與初步評估使用</li>
+                <li><strong>實際差異：</strong>實際成效依導入範圍、香氛設計、動線與檔期而異</li>
+                <li><strong>行業差異：</strong>不同行業的客群特性可能影響實際效果</li>
+                <li><strong>執行變數：</strong>香氛濃度、設備位置、維護狀況都會影響結果</li>
+            </ul>
+
+            <h3>🎯 建議用途</h3>
+            <div class="highlight-box">
+                <h4>✅ 適合用於</h4>
+                <p>• 初步投資評估和預算規劃<br>
+                • 與客戶討論投資效益的參考工具<br>
+                • 不同情境下的ROI比較分析<br>
+                • 內部決策討論的數據支撐</p>
+            </div>
+
+            <div class="warning-box">
+                <h4>❌ 不適合用於</h4>
+                <p>• 精確的財務預測和承諾<br>
+                • 投資保證或績效承諾<br>
+                • 法律合約的數據依據<br>
+                • 取代專業顧問的詳細分析</p>
+            </div>
+
+            <h3>📈 提升準確度建議</h3>
+            <ol style="margin-left: 20px;">
+                <li><strong>提供準確數據：</strong>確保基準營收數據的準確性</li>
+                <li><strong>考慮季節性：</strong>注意業務的季節波動特性</li>
+                <li><strong>分期評估：</strong>建議分階段導入並追蹤實際效果</li>
+                <li><strong>專業諮詢：</strong>搭配專業顧問的詳細分析更為準確</li>
+            </ol>
+
+            <div class="highlight-box">
+                <h4>🚀 結論</h4>
+                <p>ROI計算機是一個科學化的評估工具，基於真實數據和行業經驗設計。雖有一定限制，但能有效協助初期決策和預算規劃，建議搭配實際案例研究和專業諮詢使用。</p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // 平滑滾動導航
+        document.querySelectorAll('.nav-menu a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+
+        // 添加滾動時的導航高亮
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.style.background = '';
+                link.style.color = '#10b981';
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.style.background = '#10b981';
+                    link.style.color = 'white';
+                }
+            });
+        });
+
+        // 添加一些互動效果
+        document.querySelectorAll('.industry-card, .scenario-card, .kpi-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-6px)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(-4px)';
+            });
+        });
+    </script>
+</body>
+</html>
