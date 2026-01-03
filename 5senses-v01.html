@@ -1,1 +1,739 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>五感行銷研究工作室 — Sensory Branding Solutions, Made by Experts</title>
+  <meta name="description" content="五感行銷研究工作室：以嗅覺為核心，打造品牌專屬的精密感官識別，從視覺到嗅覺，構築一條直達大腦的情緒捷徑。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#F5F8FA;
+      --panel:rgba(30,41,59,.04);
+      --panel2:rgba(30,41,59,.06);
+      --text:#1E293B;
+      --muted:#64748B;
+      --line:#E2E8F0;
+      --accent:#3B82F6;
+      --accent2:#0EA5E9;
+      --silver:#94A3B8;
+      --radius:20px;
+      --shadow:0 20px 60px rgba(30,41,59,.08);
+      --max:90vw;
+    }
 
+    *{box-sizing:border-box}
+    html,body{
+      margin:0;
+      color:var(--text);
+      font-family: 'Noto Sans TC', ui-sans-serif, system-ui, -apple-system, sans-serif;
+      background:
+        radial-gradient(900px 500px at 18% 15%, rgba(59,130,246,.08), transparent 60%),
+        radial-gradient(800px 520px at 78% 20%, rgba(14,165,233,.06), transparent 55%),
+        radial-gradient(900px 600px at 55% 78%, rgba(148,163,184,.05), transparent 55%),
+        linear-gradient(180deg, #FAFBFC 0%, #F5F8FA 45%, #F0F4F8 100%);
+      min-height:100vh;
+      overflow-x:hidden;
+      font-weight:300;
+    }
+
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:var(--max); margin:0 auto; padding:0 28px}
+
+    /* Subtle blueprint grid */
+    .grid-bg{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        linear-gradient(to right, rgba(30,41,59,.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(30,41,59,.08) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(60% 45% at 50% 20%, rgba(0,0,0,1), rgba(0,0,0,0));
+      opacity:.55;
+    }
+
+    /* Top Nav */
+    .nav{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter:saturate(1.2) blur(10px);
+      background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.78));
+      border-bottom:1px solid var(--line);
+    }
+    .nav-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      height:72px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      letter-spacing:.2px;
+    }
+    .logo{
+      width:34px; height:34px; border-radius:12px;
+      background:
+        linear-gradient(135deg, rgba(59,130,246,.92), rgba(14,165,233,.9));
+      box-shadow: 0 10px 30px rgba(59,130,246,.20);
+      position:relative;
+      overflow:hidden;
+    }
+    .logo:before{
+      content:"";
+      position:absolute; inset:-40%;
+      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,.85), transparent 40%);
+      transform: rotate(25deg);
+      opacity:.35;
+    }
+    .brand strong{font-weight:500}
+    .brand small{display:block; color:var(--muted); font-size:12px; margin-top:2px; font-weight:300}
+
+    .nav-links{
+      display:flex; align-items:center; gap:22px;
+      color:var(--muted);
+      font-size:14px;
+      font-weight:300;
+    }
+    .nav-links a{padding:10px 10px; border-radius:12px}
+    .nav-links a:hover{background:rgba(59,130,246,.08); color:var(--text)}
+
+    .nav-cta{display:flex; align-items:center; gap:10px}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px;
+      padding:11px 14px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.85);
+      color:var(--text);
+      font-size:14px;
+      font-weight:300;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      will-change:transform;
+    }
+    .btn:hover{transform: translateY(-1px); background:rgba(255,255,255,1); border-color:rgba(59,130,246,.25)}
+
+    .btn-primary{
+      border-color: rgba(59,130,246,.35);
+      background:
+        linear-gradient(135deg, rgba(59,130,246,.98), rgba(14,165,233,.88));
+      color:#FFFFFF;
+      font-weight:500;
+    }
+    .btn-primary:hover{transform: translateY(-1px) scale(1.01)}
+
+    .pill{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.65);
+      color:var(--muted);
+      font-size:12px;
+      font-weight:300;
+    }
+    .dot{
+      width:8px; height:8px; border-radius:99px;
+      background:linear-gradient(135deg, rgba(59,130,246,1), rgba(14,165,233,1));
+      box-shadow:0 0 0 6px rgba(59,130,246,.12);
+    }
+
+    /* Hero */
+    .hero{padding:64px 0 22px}
+    .hero-grid{display:grid; grid-template-columns: 1.2fr .8fr; gap:22px; align-items:stretch}
+
+    .hero-card{
+      border:1px solid var(--line);
+      border-radius: calc(var(--radius) + 8px);
+      background:
+        radial-gradient(1100px 450px at 20% 0%, rgba(59,130,246,.10), transparent 55%),
+        radial-gradient(900px 420px at 85% 20%, rgba(14,165,233,.08), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.85));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+
+    .hero-media{
+      position:absolute; inset:0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.25), rgba(255,255,255,.65)),
+        radial-gradient(1200px 700px at 60% 10%, rgba(59,130,246,.12), transparent 60%),
+        radial-gradient(1000px 700px at 20% 0%, rgba(14,165,233,.10), transparent 60%);
+    }
+
+    .hero-content{position:relative; padding:42px 42px 36px}
+
+    .hero h1{
+      margin:14px 0 12px;
+      font-size:52px;
+      font-weight:300;
+      line-height:1.05;
+      letter-spacing:-1px;
+    }
+    .hero h1 .grad{
+      background: linear-gradient(90deg, rgba(30,41,59,.95), rgba(59,130,246,.92), rgba(14,165,233,.88));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      font-weight:400;
+    }
+
+    .hero p{margin:0; color:var(--muted); font-size:18px; font-weight:300; line-height:1.6; max-width:62ch}
+
+    .hero-actions{margin-top:22px; display:flex; gap:12px; flex-wrap:wrap}
+
+    .hero-metrics{
+      display:grid; grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+      margin-top:26px;
+    }
+    .metric{
+      padding:14px 14px;
+      border-radius:16px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.65);
+    }
+    .metric strong{display:block; font-size:18px; font-weight:400; letter-spacing:-.2px}
+    .metric span{display:block; margin-top:6px; color:var(--muted); font-size:12px; font-weight:300; line-height:1.4}
+
+    /* Right column cards */
+    .side{
+      display:grid;
+      grid-template-rows: auto 1fr;
+      gap:14px;
+    }
+
+    .side-card{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.85));
+      padding:18px;
+      box-shadow: 0 20px 60px rgba(30,41,59,.10);
+    }
+
+    .kicker{color:var(--muted); font-size:12px; font-weight:500; letter-spacing:.14em; text-transform:uppercase}
+    .side-title{margin:10px 0 12px; font-size:16px; font-weight:400}
+
+    .capabilities{display:grid; gap:10px}
+    .cap{
+      display:flex; gap:12px; align-items:flex-start;
+      padding:12px;
+      border-radius:16px;
+      border:1px solid rgba(30,41,59,.12);
+      background: rgba(255,255,255,.55);
+    }
+    .cap i{
+      width:34px; height:34px; border-radius:14px;
+      display:inline-flex; align-items:center; justify-content:center;
+      background: radial-gradient(circle at 30% 20%, rgba(59,130,246,.20), rgba(59,130,246,.08));
+      border:1px solid rgba(59,130,246,.18);
+      flex:none;
+      font-style:normal;
+      font-weight:700;
+    }
+    .cap b{display:block; font-size:14px; font-weight:500}
+    .cap p{margin:4px 0 0; color:var(--muted); font-size:12px; font-weight:300; line-height:1.5}
+
+    .quote{
+      position:relative;
+      padding:18px;
+      border-radius: var(--radius);
+      border:1px solid rgba(59,130,246,.20);
+      background:
+        radial-gradient(450px 220px at 20% 10%, rgba(59,130,246,.10), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,255,255,.75));
+    }
+    .quote p{margin:0; color:var(--text); font-size:14px; font-weight:300; line-height:1.6}
+    .quote small{display:block; margin-top:10px; color:var(--muted); font-weight:300}
+
+    /* Section base */
+    section{padding:42px 0}
+    .section-head{display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:18px}
+    .section-head h2{margin:0; font-size:28px; font-weight:400; letter-spacing:-.3px}
+    .section-head p{margin:0; color:var(--muted); font-size:17px; font-weight:300; max-width:70ch; line-height:1.6}
+
+    /* Cards */
+    .cards{display:grid; grid-template-columns: repeat(3, 1fr); gap:14px}
+    .card{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(600px 260px at 20% 0%, rgba(59,130,246,.08), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.85));
+      padding:18px;
+      box-shadow: 0 18px 50px rgba(30,41,59,.10);
+      overflow:hidden;
+      position:relative;
+    }
+    .card:after{
+      content:"";
+      position:absolute; inset:-1px;
+      border-radius: inherit;
+      padding:1px;
+      background: linear-gradient(135deg, rgba(59,130,246,.18), rgba(14,165,233,.14), rgba(148,163,184,.10));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+              mask-composite: exclude;
+      pointer-events:none;
+    }
+    .card h3{margin:12px 0 8px; font-size:16px; font-weight:500}
+    .card p{margin:0; color:var(--muted); font-size:13px; font-weight:300; line-height:1.6}
+    .icon{
+      width:42px; height:42px; border-radius:16px;
+      display:inline-flex; align-items:center; justify-content:center;
+      border:1px solid rgba(59,130,246,.20);
+      background: rgba(59,130,246,.08);
+      font-size:20px;
+    }
+
+    /* Stats */
+    .stats-card{
+      border:1px solid var(--line);
+      border-radius: calc(var(--radius) + 6px);
+      background:
+        radial-gradient(900px 420px at 15% 10%, rgba(59,130,246,.10), transparent 60%),
+        radial-gradient(900px 420px at 85% 20%, rgba(14,165,233,.08), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.85));
+      box-shadow: var(--shadow);
+      padding:32px;
+    }
+    .stats-grid{
+      display:grid; grid-template-columns: repeat(4, 1fr);
+      gap:20px;
+      margin-top:28px;
+    }
+    .stat{
+      text-align:center;
+      padding:20px;
+      border-radius:16px;
+      border:1px solid rgba(30,41,59,.12);
+      background:rgba(255,255,255,.65);
+    }
+    .stat-number{
+      font-size:42px;
+      font-weight:700;
+      background: linear-gradient(90deg, rgba(59,130,246,1), rgba(14,165,233,1));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      margin-bottom:8px;
+    }
+    .stat-label{
+      color:var(--muted);
+      font-size:13px;
+      font-weight:300;
+    }
+
+    /* Case Study Cards */
+    .cases-grid{display:grid; grid-template-columns: repeat(2, 1fr); gap:14px}
+    .case-card{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(600px 260px at 20% 0%, rgba(59,130,246,.06), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.85));
+      overflow:hidden;
+      box-shadow: 0 18px 50px rgba(30,41,59,.10);
+    }
+    .case-header{
+      padding:20px;
+      background:rgba(255,255,255,.55);
+      border-bottom:1px solid var(--line);
+    }
+    .case-brand{
+      font-size:18px;
+      font-weight:500;
+      margin-bottom:10px;
+    }
+    .case-tags{
+      display:flex;
+      gap:6px;
+      flex-wrap:wrap;
+    }
+    .tag{
+      padding:4px 10px;
+      background:rgba(255,255,255,.75);
+      border:1px solid rgba(30,41,59,.12);
+      border-radius:6px;
+      font-size:11px;
+      font-weight:300;
+      color:var(--muted);
+    }
+    .case-body{
+      padding:20px;
+    }
+    .case-body p{
+      margin:0 0 14px;
+      color:var(--muted);
+      font-size:13px;
+      font-weight:300;
+      line-height:1.7;
+    }
+    .case-highlight{
+      background:rgba(59,130,246,.08);
+      padding:12px;
+      border-radius:10px;
+      border-left:3px solid var(--accent);
+      margin-top:16px;
+    }
+    .case-highlight p{
+      margin:0;
+      color:var(--text);
+      font-weight:400;
+      font-size:13px;
+    }
+
+    /* CTA */
+    .cta-card{
+      border:1px solid rgba(59,130,246,.25);
+      border-radius: calc(var(--radius) + 6px);
+      background:
+        radial-gradient(900px 420px at 20% 0%, rgba(59,130,246,.12), transparent 60%),
+        radial-gradient(900px 520px at 80% 20%, rgba(14,165,233,.10), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.85));
+      box-shadow: var(--shadow);
+      padding:48px;
+      text-align:center;
+    }
+    .cta-card h2{
+      font-size:32px;
+      font-weight:300;
+      line-height:1.3;
+      margin:0 0 16px;
+    }
+    .cta-card p{
+      color:var(--muted);
+      font-size:16px;
+      font-weight:300;
+      line-height:1.6;
+      margin:0 0 28px;
+    }
+    .cta-buttons{
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+
+    /* Footer */
+    footer{padding:44px 0 54px; border-top:1px solid var(--line); background: rgba(248,250,252,.65)}
+    .foot{display:grid; grid-template-columns: 1.2fr .8fr; gap:18px}
+    .foot p{color:var(--muted); font-weight:300; line-height:1.7; margin:10px 0 0}
+    .foot h3{font-size:18px; font-weight:500; margin:0 0 12px}
+    .foot-grid{display:grid; grid-template-columns: repeat(2,1fr); gap:10px}
+    .foot a{display:block; padding:10px 12px; border-radius:14px; border:1px solid rgba(30,41,59,.12); background: rgba(255,255,255,.75); color:var(--muted); font-weight:300}
+    .foot a:hover{background: rgba(255,255,255,1); color: var(--text)}
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero-grid{grid-template-columns: 1fr;}
+      .hero h1{font-size:44px}
+      .cases-grid{grid-template-columns: 1fr;}
+      .foot{grid-template-columns: 1fr;}
+      .nav-links{display:none}
+    }
+    @media (max-width: 720px){
+      .hero-content{padding:34px 18px 22px}
+      .hero h1{font-size:34px}
+      .hero-metrics{grid-template-columns: 1fr;}
+      .cards{grid-template-columns: 1fr;}
+      .stats-grid{grid-template-columns: repeat(2, 1fr);}
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-bg" aria-hidden="true"></div>
+
+  <!-- Top Nav -->
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top" aria-label="五感行銷研究工作室">
+        <span class="logo" aria-hidden="true"></span>
+        <span>
+          <strong>五感行銷研究工作室</strong>
+          <small>Sensory Branding Solutions · Made by Experts</small>
+        </span>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#expertise">服務範疇</a>
+        <a href="#value">核心價值</a>
+        <a href="#cases">經典案例</a>
+        <a href="#contact">聯絡諮詢</a>
+      </nav>
+
+      <div class="nav-cta">
+        <a class="btn" href="#cases">查看案例</a>
+        <a class="btn btn-primary" href="#contact">預約診斷</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-card">
+          <div class="hero-media" aria-hidden="true"></div>
+          <div class="hero-content">
+            <span class="pill"><span class="dot" aria-hidden="true"></span>全方位品牌感官體驗架構師 · 以嗅覺行銷為核心競爭力</span>
+            <h1>
+              <span class="grad">THE BACKBONE OF SENSORY BRANDING SOLUTIONS.</span>
+            </h1>
+            <p>
+              看見的，終會遺忘；聞到的，刻骨銘心。五感行銷研究工作室以嗅覺為核心，打造品牌專屬的精密感官識別，從視覺到嗅覺，構築一條直達大腦的情緒捷徑。
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#expertise">查看感官機制</a>
+              <a class="btn" href="#contact">取得報價</a>
+              <a class="btn" href="#cases">了解案例</a>
+            </div>
+
+            <div class="hero-metrics" aria-label="Key features">
+              <div class="metric">
+                <strong>One-Stop</strong>
+                <span>研發 · 設計 · 焊接 · 組裝 · 香氛 · 品管 · 交付</span>
+              </div>
+              <div class="metric">
+                <strong>Stable Output</strong>
+                <span>在地專業團隊，縮短溝通與交付風險</span>
+              </div>
+              <div class="metric">
+                <strong>World-Class</strong>
+                <span>面向全球頂級品牌的感官體驗設計</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="side">
+          <div class="side-card">
+            <div class="kicker">CORE EXPERTISE</div>
+            <div class="side-title">三大系統，對接國際品牌語言</div>
+            <div class="capabilities">
+              <div class="cap">
+                <i aria-hidden="true">👁</i>
+                <div>
+                  <b>視覺識別</b>
+                  <p>空間美學與品牌視覺的精密設計整合。</p>
+                </div>
+              </div>
+              <div class="cap">
+                <i aria-hidden="true">👃</i>
+                <div>
+                  <b>嗅覺行銷</b>
+                  <p>專屬氣味識別，打造看不見的品牌名片。</p>
+                </div>
+              </div>
+              <div class="cap">
+                <i aria-hidden="true">🎵</i>
+                <div>
+                  <b>全感整合</b>
+                  <p>五感協作系統，創造立體品牌體驗。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="quote">
+            <p>
+              我們不只是行銷人，更是空氣的建築師。我們為世界級巨頭打造那張「看不見的名片」。
+            </p>
+            <small>Sensory Minimalism · Olfactory Tech Aesthetic</small>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Core Expertise -->
+    <section id="expertise">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>五感整合：用感官體驗說服市場</h2>
+            <p>在視覺過度競爭的時代，嗅覺是品牌最後一片藍海。用精準、科學、可驗證的感官策略，讓客戶在第一秒就透過呼吸，將品牌精神吸入靈魂深處。</p>
+          </div>
+        </div>
+
+        <div class="cards" role="list">
+          <article class="card" role="listitem">
+            <span class="icon" aria-hidden="true">👁</span>
+            <h3>Visual + Olfactory</h3>
+            <p>視覺震撼配合嗅覺記憶，創造科技眼、自然鼻的感官反差體驗。</p>
+          </article>
+          <article class="card" role="listitem">
+            <span class="icon" aria-hidden="true">👂</span>
+            <h3>Auditory + Olfactory</h3>
+            <p>音樂節奏與香氛能量加乘，維持空間的亢奮度與愉悅感。</p>
+          </article>
+          <article class="card" role="listitem">
+            <span class="icon" aria-hidden="true">👅</span>
+            <h3>Gustatory + Olfactory</h3>
+            <p>嗅覺先誘發食慾，味覺在優質環境襯托下被大腦加權計算。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Value Proposition -->
+    <section id="value">
+      <div class="wrap">
+        <div class="stats-card">
+          <div class="section-head">
+            <div>
+              <h2>被低估的嗅覺經濟</h2>
+              <p>在商業競爭的叢林裡，視覺是為了捕捉眼球，而嗅覺，則是為了佔領靈魂。當 Logo 已經飽和，嗅覺是品牌最後一片藍海。</p>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat">
+              <div class="stat-number">200+</div>
+              <div class="stat-label">指標案場經驗</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">50+</div>
+              <div class="stat-label">頂級醫療空間</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">6</div>
+              <div class="stat-label">跨產業整合</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">100%</div>
+              <div class="stat-label">專業團隊</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Case Studies -->
+    <section id="cases">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>與巨人同行：世界級領袖的選擇</h2>
+            <p>從德國工藝的精密，到運動時尚的狂熱，再到全球頂尖的創意殿堂，我們帶您一窺這些產業巨頭如何運用嗅覺，鞏固其不可撼動的地位。</p>
+          </div>
+        </div>
+
+        <div class="cases-grid">
+          <article class="case-card">
+            <div class="case-header">
+              <h3 class="case-brand">奢華汽車產業</h3>
+              <div class="case-tags">
+                <span class="tag">保時捷 Porsche</span>
+                <span class="tag">賓士 Mercedes-Benz</span>
+                <span class="tag">尊榮工藝</span>
+              </div>
+            </div>
+            <div class="case-body">
+              <p>您是否注意過，坐進百萬名車的那一刻，那股獨特的氣味？那不是巧合，那是精心計算的「奢華」。</p>
+              <p>在新竹保時捷 Studio 等展示空間，我們不只除味，更創造了與百萬名車匹配的「氣息」。透過沉穩的皮革調、冷冽的金屬感與細緻的木質底蘊，讓客戶在呼吸間確認了德國工藝的價值。</p>
+              <div class="case-highlight">
+                <p>在這裡，空氣本身就是一種身份的象徵。</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="case-card">
+            <div class="case-header">
+              <h3 class="case-brand">全球運動時尚</h3>
+              <div class="case-tags">
+                <span class="tag">愛迪達 Adidas</span>
+                <span class="tag">動能清新</span>
+                <span class="tag">滯留率提升</span>
+              </div>
+            </div>
+            <div class="case-body">
+              <p>如何讓運動用品店聞起來不像健身房，而是充滿時尚感的競技場？</p>
+              <p>全台愛迪達門店導入了具有「提振動能」的專屬香氛。這股清新、潔淨且充滿爆發力的氣息，不僅優化了購物體驗，更在潛意識中激發了消費者對運動的渴望。</p>
+              <div class="case-highlight">
+                <p>我們不只賣產品，我們讓空氣中充滿了「Just Do It」的行動力。</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="case-card">
+            <div class="case-header">
+              <h3 class="case-brand">國際頂尖廣告集團</h3>
+              <div class="case-tags">
+                <span class="tag">智威湯遜 JWT</span>
+                <span class="tag">創意靈感</span>
+                <span class="tag">專注提升</span>
+              </div>
+            </div>
+            <div class="case-body">
+              <p>作為全球第一家廣告公司、行銷界的鼻祖，智威湯遜比任何人都清楚感官對大腦的影響。</p>
+              <p>在他們充滿高壓與創意的辦公空間中，我們調製了能刺激前額葉、提升專注力與激發靈感的氣息。這證明了嗅覺行銷不僅能對外吸引客戶，對內更能優化企業文化與產能。</p>
+              <div class="case-highlight">
+                <p>連最懂行銷的人都選擇了嗅覺，您的品牌還在猶豫什麼？</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="case-card">
+            <div class="case-header">
+              <h3 class="case-brand">2025 大阪世博台灣館</h3>
+              <div class="case-tags">
+                <span class="tag">國際展會</span>
+                <span class="tag">勤美之森</span>
+                <span class="tag">科技與自然</span>
+              </div>
+            </div>
+            <div class="case-body">
+              <p>在大阪世博的國際舞台，視覺展現的是台灣頂尖的科技實力與數位藝術。然而，如何讓冰冷的科技展演帶有溫度？</p>
+              <p>我們運用高階香氛機規劃，在展館中隱形釋放屬於台灣的「島嶼氣息」——那是高山冷杉的清冽、雨後茶園的甘醇，以及亞熱帶森林的溫潤。</p>
+              <div class="case-highlight">
+                <p>這種「科技眼、自然鼻」的感官反差，讓世界不只「看見」台灣，更深刻地「記憶」了台灣。</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="contact">
+      <div class="wrap">
+        <div class="cta-card">
+          <h2>五感行銷的最後一塊拼圖，是嗅覺。</h2>
+          <p>
+            不要讓您的品牌在空氣中失聲。既然世界級的巨人已經驗證了我們的專業，<br>
+            現在，輪到您來定義屬於您的品牌氣息。
+          </p>
+          <div class="cta-buttons">
+            <a class="btn btn-primary" href="#contact">預約感官診斷</a>
+            <a class="btn" href="#cases">查看完整案例</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap foot">
+      <div>
+        <h3>五感行銷研究工作室</h3>
+        <p>
+          ✓ 累積服務超過 200 個指標案場<br>
+          ✓ 橫跨醫療、地產、汽車、時尚、政府、娛樂六大產業<br>
+          ✓ 與世界級品牌並肩作戰的專業團隊<br>
+          ✓ 國際展會指定合作夥伴
+        </p>
+      </div>
+      <div class="foot-grid">
+        <a href="#expertise">服務範疇</a>
+        <a href="#value">核心價值</a>
+        <a href="#cases">經典案例</a>
+        <a href="#contact">聯絡諮詢</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
