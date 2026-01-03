@@ -45,7 +45,8 @@
             transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .group:hover .bg-image { transform: scale(1.05); }
-        .overlay-light { position: absolute; inset: 0; background: rgba(255,255,255,0.88); z-index: 1; }
+        
+        /* 深色遮罩：用於有照片的區塊 */
         .overlay-dark { position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 1; }
         .content-safe { position: relative; z-index: 10; }
 
@@ -56,8 +57,8 @@
 </head>
 <body class="overflow-x-hidden">
 
-    <!-- 導覽列 -->
-    <nav class="fixed w-full z-[100] bg-white/95 backdrop-blur-md border-b grid-line flex justify-between items-center px-8 py-6">
+    <!-- 導覽列 - 保持白色半透明以襯托下方緊貼的影像 -->
+    <nav class="fixed w-full z-[100] bg-white/80 backdrop-blur-md border-b grid-line flex justify-between items-center px-8 py-6">
         <div class="font-normal text-2xl tracking-tighter content-safe">FIVE SENSES <span class="font-light text-gray-500 italic">STUDIO.</span></div>
         <div class="hidden md:flex space-x-12 text-xs font-medium tracking-widest uppercase content-safe">
             <a href="#value" class="hover:text-gold transition">Philosophy</a>
@@ -67,26 +68,28 @@
         </div>
     </nav>
 
-    <!-- 1. Hero Section -->
-    <section class="min-h-screen pt-24 grid md:grid-cols-12">
-        <div class="md:col-span-8 p-8 md:p-16 flex flex-col justify-end section-box border-l group">
-            <!-- Hero 背景圖： -->
+    <!-- 1. Hero Section - 已移除 pt-24 以緊貼 Header -->
+    <section class="min-h-screen grid md:grid-cols-12">
+        <div class="md:col-span-8 p-8 md:p-16 flex flex-col justify-end section-box border-l group border-t">
+            <!-- Hero 背景圖：文青風格室內照片 -->
             <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&q=80&w=2000');"></div>
-            <div class="overlay-light"></div>
-            <div class="hero-content fade-in content-safe">
+            <!-- 改為深色遮罩確保白字清晰 -->
+            <div class="overlay-dark"></div>
+            <div class="hero-content fade-in content-safe text-white">
                 <h1 class="huge-text mb-12">
                     看見的<br>終會遺忘<br>
-                    <span class="text-gray-400">聞到的</span><br>刻骨銘心
+                    <span class="text-white/40">聞到的</span><br>刻骨銘心
                 </h1>
             </div>
         </div>
-        <div class="md:col-span-4 p-8 md:p-16 flex flex-col justify-between section-box">
+        <div class="md:col-span-4 p-8 md:p-16 pt-32 flex flex-col justify-between section-box border-t">
+            <!-- 右側區域維持亮色系排版，不放背景圖 -->
             <div class="text-xs tracking-widest text-gray-500 mb-20 font-medium content-safe">EST. 2025 / SENSORY ARCHITECT</div>
             <div class="hero-content fade-in content-safe">
                 <p class="text-xl font-light leading-relaxed mb-8 text-gray-700">
                     從視覺到嗅覺，我們為品牌構築一條直達大腦的情緒捷徑。
                 </p>
-                <p class="text-sm text-gray-500 leading-relaxed italic">
+                <p class="text-sm text-gray-400 leading-relaxed italic">
                     歡迎來到全感知行銷時代。
                 </p>
             </div>
@@ -105,34 +108,35 @@
             </div>
         </div>
         <div class="md:col-span-8 p-8 md:p-16 section-box group">
-            <!-- 核心價值背景： -->
-            <div class="bg-image opacity-20" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=2000');"></div>
-            <div class="max-w-2xl fade-in content-safe">
-                <p class="text-2xl font-light mb-12 leading-tight italic text-gray-800">
+            <!-- 有照片的區塊統一使用深色遮罩與白字 -->
+            <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=2000');"></div>
+            <div class="overlay-dark opacity-60"></div>
+            <div class="max-w-2xl fade-in content-safe text-white">
+                <p class="text-2xl font-light mb-12 leading-tight italic">
                     在商業競爭的叢林裡，視覺是為了捕捉眼球，而 <span class="text-gold border-b border-gold/40">嗅覺，則是為了佔領靈魂。</span>
                 </p>
-                <p class="text-gray-600 font-normal leading-relaxed mb-12">
+                <p class="text-white/70 font-normal leading-relaxed mb-12">
                     您是否想過，為什麼走進某些國際品牌的空間，總有一種說不出的「高級感」？這並非巧合，而是經過精密計算的「嗅覺行銷」。我們正是那群躲在空氣背後的設計師。
                 </p>
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-12 pt-12 border-t grid-line">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-12 pt-12 border-t border-white/20">
                     <div>
                         <div class="text-4xl font-light">200+</div>
-                        <div class="text-[10px] text-gray-500 uppercase tracking-widest mt-2 font-bold">Projects</div>
+                        <div class="text-[10px] text-white/40 uppercase tracking-widest mt-2 font-bold">Projects</div>
                     </div>
                     <div>
                         <div class="text-4xl font-light">50+</div>
-                        <div class="text-[10px] text-gray-500 uppercase tracking-widest mt-2 font-bold">Clinics</div>
+                        <div class="text-[10px] text-white/40 uppercase tracking-widest mt-2 font-bold">Clinics</div>
                     </div>
                     <div>
                         <div class="text-4xl font-light italic text-gold">EXPO</div>
-                        <div class="text-[10px] text-gray-500 uppercase tracking-widest mt-2 font-bold">Osaka 2025</div>
+                        <div class="text-[10px] text-white/40 uppercase tracking-widest mt-2 font-bold">Osaka 2025</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 3. 線上互動工具 -->
+    <!-- 3. 線上互動工具 - 維持亮色系（無背景照片） -->
     <section id="quiz" class="grid md:grid-cols-12">
         <div class="md:col-span-12 p-8 md:p-20 section-box border-l bg-white">
             <div class="max-w-4xl mx-auto content-safe">
@@ -151,25 +155,6 @@
                             <div class="quiz-option py-6 text-lg" data-score="1">可以，空氣中有獨特且符合品牌調性的氣息</div>
                         </div>
                     </div>
-                    <div class="quiz-step hidden" data-step="2">
-                        <div class="text-xs font-bold text-gold mb-4 tracking-widest">Q2. THE EMOTION TEST</div>
-                        <h3 class="text-3xl font-light mb-12 leading-snug">下午 2 點到 4 點，您的空間氛圍如何？</h3>
-                        <div class="flex flex-col">
-                            <div class="quiz-option py-6 text-lg" data-score="0">沉悶疲憊，客戶只想快點離開</div>
-                            <div class="quiz-option py-6 text-lg" data-score="0">混雜異味（食物、霉味或裝修味）</div>
-                            <div class="quiz-option py-6 text-lg" data-score="1">依然保持專注、放鬆或充滿活力</div>
-                        </div>
-                    </div>
-                    <div class="quiz-step hidden" data-step="3">
-                        <div class="text-xs font-bold text-gold mb-4 tracking-widest">Q3. THE MEMORY TEST</div>
-                        <h3 class="text-3xl font-light mb-12 leading-snug">客戶離開一週後，還記得什麼？</h3>
-                        <div class="flex flex-col">
-                            <div class="quiz-option py-6 text-lg" data-score="0">只記得價格或促銷活動</div>
-                            <div class="quiz-option py-6 text-lg" data-score="0">模糊的裝潢印象</div>
-                            <div class="quiz-option py-6 text-lg" data-score="1">一種說不出的「高級感」與回訪意願</div>
-                        </div>
-                    </div>
-
                     <div id="result-area" class="hidden">
                         <h3 id="result-title" class="text-5xl font-light mb-8 text-gold italic"></h3>
                         <p id="result-desc" class="text-2xl text-gray-600 mb-12 leading-relaxed font-normal"></p>
@@ -180,59 +165,59 @@
         </div>
     </section>
 
-    <!-- 4. 服務與案例 -->
+    <!-- 4. 服務與案例 - 全面套用深色遮罩與白字 -->
     <section id="cases" class="grid md:grid-cols-12 border-l grid-line">
         <!-- 保時捷 -->
-        <div class="md:col-span-6 p-12 h-[500px] section-box flex flex-col justify-between group cursor-pointer overflow-hidden bg-white">
+        <div class="md:col-span-6 p-12 h-[500px] section-box flex flex-col justify-between group cursor-pointer overflow-hidden text-white">
             <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=1200');"></div>
-            <div class="overlay-light opacity-90 group-hover:opacity-80 transition duration-500"></div>
+            <div class="overlay-dark opacity-40 group-hover:opacity-60 transition duration-500"></div>
             <div class="content-safe">
-                <div class="text-xs font-bold mb-2 tracking-widest text-gray-400">CASE 01 / AUTOMOTIVE</div>
+                <div class="text-xs font-bold mb-2 tracking-widest text-white/40">CASE 01 / AUTOMOTIVE</div>
                 <h3 class="text-4xl font-light group-hover:text-gold transition-colors duration-500">保時捷 PORSCHE</h3>
             </div>
             <div class="content-safe">
-                <p class="text-sm max-w-sm text-gray-600 font-normal leading-relaxed">透過沉穩的皮革調與細緻的木質底蘊，讓客戶在呼吸間確認德國工藝的價值。</p>
+                <p class="text-sm max-w-sm text-white/70 font-normal leading-relaxed">透過沉穩的皮革調與細緻的木質底蘊，讓客戶在呼吸間確認德國工藝的價值。</p>
             </div>
         </div>
         <!-- 愛迪達 -->
-        <div class="md:col-span-6 p-12 h-[500px] section-box flex flex-col justify-between group cursor-pointer bg-white">
+        <div class="md:col-span-6 p-12 h-[500px] section-box flex flex-col justify-between group cursor-pointer text-white">
             <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1534120247760-c44c3e4a62f1?auto=format&fit=crop&q=80&w=1200');"></div>
-            <div class="overlay-light opacity-90 group-hover:opacity-80 transition duration-500"></div>
+            <div class="overlay-dark opacity-40 group-hover:opacity-60 transition duration-500"></div>
             <div class="content-safe">
-                <div class="text-xs font-bold mb-2 tracking-widest text-gray-400">CASE 02 / FASHION</div>
+                <div class="text-xs font-bold mb-2 tracking-widest text-white/40">CASE 02 / FASHION</div>
                 <h3 class="text-4xl font-light group-hover:text-gold transition-colors duration-500">愛迪達 ADIDAS</h3>
             </div>
             <div class="content-safe">
-                <p class="text-sm max-w-sm text-gray-600 font-normal leading-relaxed">注入清新且充滿爆發力的氣息，在潛意識中激發消費者對運動的渴望。</p>
+                <p class="text-sm max-w-sm text-white/70 font-normal leading-relaxed">注入清新且充滿爆發力的氣息，在潛意識中激發消費者對運動的渴望。</p>
             </div>
         </div>
         <!-- 世博 -->
         <div class="md:col-span-8 p-12 h-[500px] section-box flex flex-col justify-between group cursor-pointer bg-zinc-950 text-white">
             <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=2000');"></div>
-            <div class="overlay-dark opacity-50 group-hover:opacity-40 transition duration-500"></div>
+            <div class="overlay-dark opacity-50 group-hover:opacity-70 transition duration-500"></div>
             <div class="content-safe">
-                <div class="text-xs font-medium mb-2 tracking-widest text-gray-500 uppercase">CASE 03 / EXPO 2025</div>
+                <div class="text-xs font-medium mb-2 tracking-widest text-white/30 uppercase">CASE 03 / EXPO 2025</div>
                 <h3 class="huge-text text-white">大阪世博</h3>
             </div>
             <div class="content-safe">
-                <p class="text-lg max-w-xl text-gray-300 font-light italic">「科技眼、自然鼻」的感官反差，創造極致的沉浸體驗。</p>
+                <p class="text-lg max-w-xl text-white/60 font-light italic">「科技眼、自然鼻」的感官反差，創造極致的沉浸體驗。</p>
             </div>
         </div>
         <!-- 智威湯遜 -->
-        <div class="md:col-span-4 p-12 h-[500px] section-box flex flex-col justify-between group cursor-pointer bg-white">
+        <div class="md:col-span-4 p-12 h-[500px] section-box flex flex-col justify-between group cursor-pointer text-white">
             <div class="bg-image" style="background-image: url('https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=1200');"></div>
-            <div class="overlay-light opacity-95 group-hover:opacity-90 transition duration-500"></div>
+            <div class="overlay-dark opacity-50 group-hover:opacity-70 transition duration-500"></div>
             <div class="content-safe">
-                <div class="text-xs font-bold mb-2 tracking-widest text-gray-400 uppercase">CASE 04 / AD AGENCY</div>
+                <div class="text-xs font-bold mb-2 tracking-widest text-white/40 uppercase">CASE 04 / AD AGENCY</div>
                 <h3 class="text-3xl font-light group-hover:text-gold transition-colors duration-500">智威湯遜 JWT</h3>
             </div>
             <div class="content-safe">
-                <p class="text-sm text-gray-600 font-normal">刺激前額葉、提升專注力與激發靈感。最懂行銷的人都選擇嗅覺。</p>
+                <p class="text-sm text-white/70 font-normal">刺激前額葉、提升專注力與激發靈感。最懂行銷的人都選擇嗅覺。</p>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- Footer - 緊接案例區 -->
     <footer id="contact" class="grid md:grid-cols-12 border-l border-b grid-line">
         <div class="md:col-span-8 p-12 md:p-24 section-box flex flex-col justify-center">
             <h2 class="text-5xl md:text-7xl font-extralight mb-12 tracking-tighter content-safe">不要讓您的品牌<br><span class="italic text-gray-400">在空氣中失聲。</span></h2>
@@ -278,6 +263,7 @@
             });
         });
 
+        // 簡化版的快篩與結果顯示
         let currentStep = 1;
         let totalScore = 0;
         const steps = document.querySelectorAll('.quiz-step');
@@ -287,13 +273,11 @@
             option.addEventListener('click', function() {
                 totalScore += parseInt(this.dataset.score);
                 this.classList.add('active');
-
                 setTimeout(() => {
                     if (currentStep < steps.length) {
                         steps[currentStep - 1].classList.add('hidden');
                         currentStep++;
                         steps[currentStep - 1].classList.remove('hidden');
-                        gsap.from(steps[currentStep - 1], { y: 20, opacity: 0, duration: 0.8 });
                     } else {
                         showResult();
                     }
@@ -307,19 +291,13 @@
             const resultArea = document.getElementById('result-area');
             const title = document.getElementById('result-title');
             const desc = document.getElementById('result-desc');
-            
             resultArea.classList.remove('hidden');
-            gsap.from(resultArea, { y: 30, opacity: 0, duration: 1 });
-
             if (totalScore <= 1) {
                 title.innerText = "感官失衡 SENSORY IMBALANCE";
-                desc.innerText = "您投入了大量預算在視覺裝潢，卻忽略了空氣中的情緒引導。這就像穿著高級西裝卻忘了噴香水，難以展現完整質感。";
-            } else if (totalScore === 2) {
-                title.innerText = "具有潛力 SENSORY POTENTIAL";
-                desc.innerText = "您已經具有感官意識，但需要更精準的「品牌定製化」來區隔競爭對手。";
+                desc.innerText = "您投入了大量預算在視覺裝潢，卻忽略了空氣中的情緒引導。";
             } else {
                 title.innerText = "世界級標準 SENSORY WORLD CLASS";
-                desc.innerText = "恭喜！您的空間已具備頂級感官標準。我們樂意與您交流，探討如何進一步深化品牌靈魂。";
+                desc.innerText = "恭喜！您的空間已具備頂級感官標準。";
             }
         }
     </script>
